@@ -97,24 +97,29 @@ BOOL CPurenessLineDlg::GetServerStateInfo(_ServerRunInfo& objServerRunInfo)
 	char szCommand[160]  = {'\0'}; 
 	size_t stSendEnd = 0;
 	sprintf_s(szKey, 32, "%s", "freeeyes");
-	sprintf_s(szCommand, 160, "%s ShowCurrProcessInfo -a&", szKey);
+	sprintf_s(szCommand, 160, "b %s ShowCurrProcessInfo -a&", szKey);
 	int nAllLen = (int)strlen(szCommand);
-	memcpy(&szSendData[0], (const void*)&nAllLen, sizeof(int));
-	memcpy(&szSendData[4], (const void*)&szCommand, nAllLen);
+	memcpy(&szSendData, szCommand, nAllLen);
 
 	//发送数据
-	int nSend = m_sckServer.Send(szSendData, nAllLen + 4);
-	if(nSend != nAllLen + 4)
+	int nSend = m_sckServer.Send(szSendData, nAllLen);
+	if (nSend != nAllLen)
 	{
 		return FALSE;
 	}
 
+	//接受头部长度数据
+	char czDataLen[6] = { 0 };
+	int nDataLen = 0;
+	m_sckServer.Receive(czDataLen, sizeof(czDataLen) / sizeof(*czDataLen));
+	memcpy(&nDataLen, czDataLen, sizeof(nDataLen));
+	nDataLen = nDataLen - 2;
 	//接受数据
 	char szBuffRecv[500] = {'\0'};
-	m_sckServer.Receive(szBuffRecv, 500);
+	m_sckServer.Receive(szBuffRecv, nDataLen);
 
 	int nStrLen              = 0;
-	int nPos                 = 4;
+	int nPos                 = 0;
 	int nClientCount         = 0;
 	//包处理线程
 	memcpy(&objServerRunInfo.m_nCPU, &szBuffRecv[nPos], sizeof(int));
@@ -263,7 +268,7 @@ void CPurenessLineDlg::shiftData(double *data, int len, double newValue)
 void CPurenessLineDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: Add your message handler code here and/or call default
-	if(nIDEvent == TIMER_ID);
+	if(nIDEvent == TIMER_ID)
 	{
 		m_cvCPU.updateViewPort(true, true);
 	}
