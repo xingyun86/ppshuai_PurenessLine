@@ -13,18 +13,18 @@
 //服务器运行时信息
 struct _ServerRunInfo
 {
-	int m_nCPU;        //当前CPU占用率
-	int m_nMemorySize; //当前内存占用率
+	double m_dCPU;        //当前CPU占用率
+	UINT64 m_nMemorySize; //当前内存占用率
 
 	_ServerRunInfo()
 	{
-		m_nCPU        = 0;
+		m_dCPU        = 0.0f;
 		m_nMemorySize = 0;
 	}
 
 	_ServerRunInfo& operator = (const _ServerRunInfo& ar)
 	{
-		this->m_nCPU        = ar.m_nCPU;
+		this->m_dCPU        = ar.m_dCPU;
 		this->m_nMemorySize = ar.m_nMemorySize;
 		return *this;
 	}
@@ -76,6 +76,7 @@ protected:
 	CEdit m_txtServerIP;
 	CEdit m_txtServerPort;
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedButton2();
 
 private:
 	void shiftData(double *data, int len, double newValue);

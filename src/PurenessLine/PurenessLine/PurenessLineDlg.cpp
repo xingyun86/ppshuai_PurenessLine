@@ -39,6 +39,7 @@ BEGIN_MESSAGE_MAP(CPurenessLineDlg, CDialog)
 	ON_WM_CLOSE()
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_BUTTON1, &CPurenessLineDlg::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, &CPurenessLineDlg::OnBnClickedButton2)
 END_MESSAGE_MAP()
 
 
@@ -121,11 +122,12 @@ BOOL CPurenessLineDlg::GetServerStateInfo(_ServerRunInfo& objServerRunInfo)
 	int nStrLen              = 0;
 	int nPos                 = 0;
 	int nClientCount         = 0;
+
 	//包处理线程
-	memcpy(&objServerRunInfo.m_nCPU, &szBuffRecv[nPos], sizeof(int));
-	nPos += sizeof(int);
-	memcpy(&objServerRunInfo.m_nMemorySize, &szBuffRecv[nPos], sizeof(int));
-	nPos += sizeof(int);
+	memcpy(&objServerRunInfo.m_dCPU, &szBuffRecv[nPos], sizeof(objServerRunInfo.m_dCPU));
+	nPos += sizeof(objServerRunInfo.m_dCPU);
+	memcpy(&objServerRunInfo.m_nMemorySize, &szBuffRecv[nPos], sizeof(objServerRunInfo.m_nMemorySize));
+	nPos += sizeof(objServerRunInfo.m_nMemorySize);
 
 	return TRUE;
 }
@@ -140,11 +142,11 @@ void CPurenessLineDlg::OnViewPortChanged()
 	if(GetServerStateInfo(objServerRunInfo) == TRUE)
 	{
 		//设置数据
-		double dbData = (double)RandomValue(1, 100);
-		shiftData(m_dbCPU, MAX_DATA_COUNT, (double)objServerRunInfo.m_nCPU/100.0);
+		double dbData = (double)RandomValue(0, 100);
+		shiftData(m_dbCPU, MAX_DATA_COUNT, (double)objServerRunInfo.m_dCPU);
 
 		dbData = (double)RandomValue(1, 100);
-		shiftData(m_dbMemory, MAX_DATA_COUNT, (double)objServerRunInfo.m_nMemorySize/(1000*1000));
+		shiftData(m_dbMemory, MAX_DATA_COUNT, (double)objServerRunInfo.m_nMemorySize/(1024*1024));
 
 		//绘制相应的数据图表
 		drawChart();
@@ -152,11 +154,11 @@ void CPurenessLineDlg::OnViewPortChanged()
 	else
 	{
 		//设置数据
-		double dbData = 0.0;
-		shiftData(m_dbCPU, MAX_DATA_COUNT, (double)objServerRunInfo.m_nCPU/100.0);
+		double dbData = 0.0f;
+		shiftData(m_dbCPU, MAX_DATA_COUNT, (double)objServerRunInfo.m_dCPU);
 
-		dbData = 0.0;
-		shiftData(m_dbMemory, MAX_DATA_COUNT, (double)objServerRunInfo.m_nMemorySize/(1000*1000));
+		dbData = 0.0f;
+		shiftData(m_dbMemory, MAX_DATA_COUNT, (double)objServerRunInfo.m_nMemorySize/(1024*1024));
 
 		//绘制相应的数据图表
 		drawChart();
@@ -213,14 +215,14 @@ void CPurenessLineDlg::drawChart()
 	XYChart* pXYMemory = NULL;
 
 	//设置默认窗体大小(CPU)
-	pXYCPU = new XYChart(410, 220, 0xeeeeff, 0x000000, 1);
+	pXYCPU = new XYChart(500, 190, 0xeeeeff, 0x000000, 1);
 	pXYCPU->setRoundedFrame();
 
 	//设置X轴下标
 	pXYCPU->xAxis()->setLabels(StringArray(szLabels, (int)(sizeof(szLabels) / sizeof(szLabels[0]))));
 
 	//设置位置
-	pXYCPU->setPlotArea(30, 20, 360, 160, 0x000200, -1, -1, 0x337f59);
+	pXYCPU->setPlotArea(60, 16, 390, 150, 0x000200, -1, -1, 0x337f59);
 
 	//获得一个新的线层
 	LineLayer* pLayer = pXYCPU->addLineLayer();
@@ -234,16 +236,17 @@ void CPurenessLineDlg::drawChart()
 	//将制定的Chart对象绑定给指定控件
 	m_cvCPU.setChart(pXYCPU);
 	delete pXYCPU;
+	pXYCPU = NULL;
 
 	//设置默认窗体大小(Memory)
-	pXYMemory = new XYChart(410, 220, 0xeeeeff, 0x000000, 1);
+	pXYMemory = new XYChart(500, 190, 0xeeeeff, 0x000000, 1);
 	pXYMemory->setRoundedFrame();
 
 	//设置X轴下标
 	pXYMemory->xAxis()->setLabels(StringArray(szLabels, (int)(sizeof(szLabels) / sizeof(szLabels[0]))));
 
 	//设置位置
-	pXYMemory->setPlotArea(30, 20, 360, 160, 0x000200, -1, -1, 0x337f59);
+	pXYMemory->setPlotArea(60, 16, 390, 150, 0x000200, -1, -1, 0x337f59);
 
 	//获得一个新的线层
 	pLayer = pXYMemory->addLineLayer();
@@ -257,6 +260,7 @@ void CPurenessLineDlg::drawChart()
 	//将制定的Chart对象绑定给指定控件
 	m_cvMemory.setChart(pXYMemory);
 	delete pXYMemory;
+	pXYMemory = NULL;
 }
 
 void CPurenessLineDlg::shiftData(double *data, int len, double newValue)
@@ -315,4 +319,12 @@ void CPurenessLineDlg::OnBnClickedButton1()
 	}
 
 	m_blState = TRUE;
+}
+void CPurenessLineDlg::OnBnClickedButton2()
+{
+	if (m_blState)
+	{
+		m_blState = FALSE;
+		m_sckServer.Close();
+	}
 }

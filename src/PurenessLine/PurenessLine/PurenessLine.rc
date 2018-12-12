@@ -16,13 +16,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Chinese (P.R.C.) resources
+// Chinese (Simplified, PRC) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
-#ifdef _WIN32
 LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 #pragma code_page(936)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -72,27 +70,28 @@ END
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\PurenessLine.ico"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_PURENESSLINE_DIALOG DIALOGEX 0, 0, 461, 276
+IDD_PURENESSLINE_DIALOG DIALOGEX 0, 0, 434, 267
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "PurenessLine Client"
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_CPUVIEW,"Static",SS_BITMAP,15,17,20,20
-    GROUPBOX        "CPU监控",IDC_STATIC,7,7,313,122
-    GROUPBOX        "内存监控",IDC_STATIC,7,133,313,136
+    GROUPBOX        "CPU监控",IDC_STATIC,7,7,295,122
+    GROUPBOX        "内存监控",IDC_STATIC,7,133,295,124
     CONTROL         "",IDC_MEMORYVIEW,"Static",SS_BITMAP,14,145,13,12
-    EDITTEXT        IDC_EDIT1,388,7,66,14,ES_AUTOHSCROLL
-    LTEXT           "服务器IP地址",IDC_STATIC,338,9,45,8
-    EDITTEXT        IDC_EDIT2,388,26,66,14,ES_AUTOHSCROLL
-    LTEXT           "服务器端口",IDC_STATIC,339,29,40,8
-    PUSHBUTTON      "开始监听",IDC_BUTTON1,339,47,50,14
-    PUSHBUTTON      "取消监听",IDC_BUTTON2,397,46,50,14
+    EDITTEXT        IDC_EDIT1,356,9,66,14,ES_AUTOHSCROLL
+    LTEXT           "服务器IP地址",IDC_STATIC,306,11,45,8
+    EDITTEXT        IDC_EDIT2,356,28,66,14,ES_AUTOHSCROLL
+    LTEXT           "服务器端口",IDC_STATIC,307,31,40,8
+    PUSHBUTTON      "开始监听",IDC_BUTTON1,307,49,50,14
+    PUSHBUTTON      "取消监听",IDC_BUTTON2,372,49,50,14
 END
 
 
@@ -141,19 +140,30 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_PURENESSLINE_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 454
+        RIGHTMARGIN, 427
         TOPMARGIN, 7
-        BOTTOMMARGIN, 269
+        BOTTOMMARGIN, 260
     END
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Chinese (P.R.C.) resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_PURENESSLINE_DIALOG AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Chinese (Simplified, PRC) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -171,8 +181,8 @@ END
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
 #pragma code_page(936)
-#include "res\PurenessLine.rc2"  // ·? Microsoft Visual C++ ±à?-μ?×ê?′
-#include "l.CHS\afxres.rc"      // ±ê×?×é?t
+#include "res\PurenessLine.rc2"  // ?¤? Microsoft Visual C++ ?à¨¤?-|ì??á¨o???
+#include "l.CHS\afxres.rc"      // ?à¨o?á??á¨|?t
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
