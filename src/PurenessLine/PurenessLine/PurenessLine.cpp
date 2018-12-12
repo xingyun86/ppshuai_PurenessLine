@@ -49,7 +49,7 @@ BOOL CPurenessLineApp::InitInstance()
 	CWinAppEx::InitInstance();
 
 	AfxEnableControlContainer();
-
+	
 	// 标准初始化
 	// 如果未使用这些功能并希望减小
 	// 最终可执行文件的大小，则应移除下列
@@ -72,7 +72,7 @@ BOOL CPurenessLineApp::InitInstance()
 		// TODO: 在此放置处理何时用
 		//  “取消”来关闭对话框的代码
 	}
-
+		
 	// 由于对话框已关闭，所以将返回 FALSE 以便退出应用程序，
 	//  而不是启动应用程序的消息泵。
 	return FALSE;
